@@ -1,4 +1,4 @@
-package com.owner.sunnyweather.logic.dao
+package com.owner.sunnyweather.logic.model
 
 import com.google.gson.annotations.SerializedName
 

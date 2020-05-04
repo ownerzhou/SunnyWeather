@@ -10,14 +10,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.owner.sunnyweather.MainActivity
 import com.owner.sunnyweather.R
+import com.owner.sunnyweather.logic.model.Place
+import com.owner.sunnyweather.ui.weather.WeatherActivity
 import kotlinx.android.synthetic.main.fragment_place.*
 
 /**
  * A simple [Fragment] subclass.
  */
 class PlaceFragment : Fragment() {
-    private val viewModel by lazy {
+    val viewModel by lazy {
         ViewModelProvider.NewInstanceFactory().create(PlaceViewModel::class.java)
     }
     private lateinit var adapter: PlaceAdapter
@@ -31,6 +34,12 @@ class PlaceFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        if (activity is MainActivity && viewModel.isPlaceSaved()) {
+            val place = viewModel.getSavedPlace()
+            WeatherActivity.startActivity(this, place)
+            activity?.finish()
+            return
+        }
         recyclerView.layoutManager = LinearLayoutManager(activity)
         adapter = PlaceAdapter(this, viewModel.placeList)
         recyclerView.adapter = adapter
@@ -53,7 +62,7 @@ class PlaceFragment : Fragment() {
                 recyclerView.visibility = View.VISIBLE
                 bgImageView.visibility = View.GONE
                 viewModel.placeList.clear()
-                viewModel.placeList.addAll(places)
+                viewModel.placeList.addAll(places as Collection<Place>)
                 adapter.notifyDataSetChanged()
             } else {
                 Toast.makeText(activity, "未能查询到任何地点", Toast.LENGTH_LONG).show()

@@ -1,7 +1,7 @@
 package com.owner.sunnyweather.logic.network
 
 import com.owner.sunnyweather.SunnyWeatherApplication
-import com.owner.sunnyweather.logic.dao.PlaceResponse
+import com.owner.sunnyweather.logic.model.PlaceResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
